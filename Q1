@@ -1,0 +1,25 @@
+# Q1:Dijkstra Algorithm
+
+import heapq
+def dijkstra(graph, start):
+    pq = [(0, start)]
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    while pq:
+        cost, node = heapq.heappop(pq)
+        for neighbor, weight in graph[node].items():
+            new_cost = cost + weight
+            if new_cost < distances[neighbor]:
+                distances[neighbor] = new_cost
+                heapq.heappush(pq, (new_cost, neighbor))
+    return distances
+graph = {
+    "Hyderabad": {"Bangalore": 570, "Chennai": 630},
+    "Bangalore": {"Hyderabad": 570, "Chennai": 350},
+    "Chennai": {"Hyderabad": 630, "Bangalore": 350}
+}
+start_city = "Hyderabad"
+result = dijkstra(graph, start_city)
+print("Shortest distances from", start_city)
+for city, dist in result.items():
+    print(city, ":", dist)
